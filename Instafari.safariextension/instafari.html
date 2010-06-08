@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Instafari</title>
+	<script src="jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+	 function setToolbarIcon(id, iconPath){
+	   jQuery.each(safari.extension.toolbarItems, function(i, ti){
+	     if (ti.command === id) {
+	       ti.image = safari.extension.baseURI + iconPath;
+	     }
+	   });
+	 }
+	 
+	 function setToolbarTooltip(id, text){
+	   jQuery.each(safari.extension.toolbarItems, function(i, ti){
+	     if (ti.command === id) {
+	       ti.toolTip = text;
+	     }
+	   });
+	 }
+	 
+   $(document).ajaxError(function(e, xhr, settings) {
+     console.log("failure", e, xhr, settings);
+     if (xhr.status == 403) {
+       setToolbarIcon("readlater", "readlater-icon-fail.png");
+       setTimeout(function(){
+         setToolbarIcon("readlater", "readlater-icon.png");
+       }, 2500);
+     }
+   });
+	 
+	 safari.application.addEventListener("command", function(e){
+	   if (e.command === "readlater") {
+	     jQuery.post("https://www.instapaper.com/api/add", {
+	          url:e.target.browserWindow.activeTab.url, 
+	          title:e.target.browserWindow.activeTab.title, 
+	          username:safari.extension.settings.username,
+	          password:safari.extension.secureSettings.password
+	        },
+	        function() {
+	          setToolbarIcon("readlater", "readlater-icon-success.png");
+	          setTimeout(function(){
+	            setToolbarIcon("readlater", "readlater-icon.png");
+	          }, 2500);
+          }
+        );
+       console.log("success!");
+     }
+	 }, false);
+	 
+	 safari.application.addEventListener("validate", function(e){
+	   if (e.command === "readlater") {
+	     e.target.disabled = !e.target.browserWindow.activeTab.url || !safari.extension.settings.username;
+	     if (!safari.extension.settings.username) {
+	       setToolbarTooltip("readlater", "Please enter your username and password in Instafari's preferences area.")
+	     }
+	   }
+	 }, false);
+	 
+	 safari.application.addEventListener("change", function(e){
+	   if (e.key === "username") {
+	     setToolbarTooltip("readlater", "Read Later");
+	   }
+	 }, false);
+	</script>
+</head>
+<body>
+</body>
+</html>
