@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+   <key>Extension Updates</key>
+   <array>
+     <dict>
+       <key>CFBundleIdentifier</key>
+       <string>com.spark74.instafari</string>
+       <key>Developer Identifier</key>
+       <string>3DTBZWY6PR</string>
+       <key>CFBundleVersion</key>
+       <string>1</string>
+       <key>CFBundleShortVersionString</key>
+       <string>0.1</string>
+       <key>URL</key>
+       <string>http://github.com/downloads/rufo/instafari/Instafari.safariextz</string>
+     </dict>
+   </array>
+</dict>
+</plist>
