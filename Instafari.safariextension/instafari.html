@@ -4,65 +4,97 @@
 	<title>Instafari</title>
 	<script src="jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
-	 function setToolbarIcon(id, iconPath){
-	   jQuery.each(safari.extension.toolbarItems, function(i, ti){
-	     if (ti.command === id) {
-	       ti.image = safari.extension.baseURI + iconPath;
-	     }
-	   });
-	 }
-	 
-	 function setToolbarTooltip(id, text){
-	   jQuery.each(safari.extension.toolbarItems, function(i, ti){
-	     if (ti.command === id) {
-	       ti.toolTip = text;
-	     }
-	   });
-	 }
-	 
-   $(document).ajaxError(function(e, xhr, settings) {
-     console.log("failure", e, xhr, settings);
-     if (xhr.status == 403) {
-       setToolbarIcon("readlater", "readlater-icon-fail.png");
-       setTimeout(function(){
-         setToolbarIcon("readlater", "readlater-icon.png");
-       }, 2500);
-     }
-   });
-	 
-	 safari.application.addEventListener("command", function(e){
-	   if (e.command === "readlater") {
-	     jQuery.post("https://www.instapaper.com/api/add", {
-	          url:e.target.browserWindow.activeTab.url, 
-	          title:e.target.browserWindow.activeTab.title, 
-	          username:safari.extension.settings.username,
-	          password:safari.extension.secureSettings.password
-	        },
-	        function() {
-	          setToolbarIcon("readlater", "readlater-icon-success.png");
-	          setTimeout(function(){
-	            setToolbarIcon("readlater", "readlater-icon.png");
-	          }, 2500);
-          }
-        );
-       console.log("success!");
-     }
-	 }, false);
-	 
-	 safari.application.addEventListener("validate", function(e){
-	   if (e.command === "readlater") {
-	     e.target.disabled = !e.target.browserWindow.activeTab.url || !safari.extension.settings.username;
-	     if (!safari.extension.settings.username) {
-	       setToolbarTooltip("readlater", "Please enter your username and password in Instafari's preferences area.")
-	     }
-	   }
-	 }, false);
-	 
-	 safari.application.addEventListener("change", function(e){
-	   if (e.key === "username") {
-	     setToolbarTooltip("readlater", "Read Later");
-	   }
-	 }, false);
+	var instapaperAddURL = "https://www.instapaper.com/api/add";
+	var instapaperAuthURL = "https://www.instapaper.com/api/authenticate";
+	
+	var toolbarIconDelay = 2500;
+	
+	function flashToolbarIcon(toolbarItem, iconPath) {
+    toolbarItem.image = safari.extension.baseURI + iconPath;
+    setTimeout(function(){
+      toolbarItem.image = safari.extension.baseURI + "readlater-icon.png";
+    }, toolbarIconDelay);
+  }
+  
+  function setAllToolbarToolTips(text) {
+	  if (text == "") {
+	    text = "Read Later";
+	  }
+	  
+	  jQuery.each(safari.extension.toolbarItems, function(i, ti){
+	    if(ti.command === "readlater") {
+	      ti.toolTip = text;
+	    }
+	  });
+	}
+	
+	function setAllToolbarButtonsDisabled(disabled) {
+	  jQuery.each(safari.extension.toolbarItems, function(i, ti){
+	    if(ti.command === "readlater") {
+	      if (disabled == false) {
+	        if (ti.browserWindow) {
+  	        ti.disabled = !ti.browserWindow.activeTab.url;
+  	      } else {
+  	        ti.disabled = false;
+  	      }
+	      } else {
+	        ti.disabled = true
+	      }
+	    }
+	  });
+	}
+	
+	function checkSettings() {
+	  if (safari.extension.settings.username) {
+      setAllToolbarToolTips("");
+      setAllToolbarButtonsDisabled(false);
+    } else {
+      setAllToolbarToolTips("Please enter your username and password in Instafari's preferences area.");
+      setAllToolbarButtonsDisabled(true);
+    }
+	}
+	
+	function commandListener(event) {
+	  var activeTab = event.target.browserWindow.activeTab;
+	  
+	  if (event.command === "readlater") {
+	    var params = {
+	           url: activeTab.url,
+	         title: activeTab.title,
+	      username: safari.extension.settings.username,
+	      password: safari.extension.secureSettings.password
+	    };
+	    
+	    var postSucceed = function(){
+	      flashToolbarIcon(event.target, "readlater-icon-success.png");
+	      console.log("success!");
+	    }
+	    
+	    var postError = function(xhr, errorType, exception){
+	      flashToolbarIcon(event.target, "readlater-icon-fail.png");
+	      console.log("failure: ", xhr, errorType, exception);
+	    }
+	    
+	    jQuery.ajax({
+	         type: 'POST',
+	          url: instapaperAddURL,
+	         data: params,
+	      success: postSucceed,
+	        error: postError
+	    });
+	    
+	  }
+	}
+	
+	function validateListener(event) {
+    checkSettings();
+	}
+	
+	checkSettings();
+	
+	safari.application.addEventListener("command", commandListener, false);
+	safari.application.addEventListener("validate", validateListener, false);
+	safari.application.addEventListener("change", checkSettings, false);	 
 	</script>
 </head>
 <body>
