@@ -6,7 +6,13 @@ This is a quick [Instapaper](http://www.instapaper.com/) extension I threw toget
 
 Installation
 ------------
-Installation should be fairly simple if you have Safari 5 installed. Go to [the downloads section here on GitHub](http://github.com/rufo/instafari/downloads) and grab the latest version of the extension. Double-click the resulting file, and Safari should offer to install the extension. Once installed, you'l need to head into Safari's preferences and enter your account info.
+Installation takes a few extra steps, since Apple hasn't officially enabled extensions yet.
+
+First, if you haven't already, you need to enable extensions. If you don't have the Develop menu enabled, you'll need to go to Safari's Advanced preferences and enable it. Once you have it enabled, go to the Develop menu and check "Enable Extensions".
+
+Once extensions are enabled, go to [the downloads section here on GitHub](http://github.com/rufo/instafari/downloads) and grab the latest version of the extension. Double-click the resulting file, and Safari should offer to install it.
+
+Finally, once installed, you'll need to head into Safari's preferences and enter your account info.
 
 Usage
 -----
