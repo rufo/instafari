@@ -5,7 +5,6 @@
 	<script src="jquery-1.4.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
 	var instapaperAddURL = "https://www.instapaper.com/api/add";
-	var instapaperAuthURL = "https://www.instapaper.com/api/authenticate";
 	
 	var toolbarIconDelay = 2500;
 	
@@ -73,6 +72,12 @@
 	    var postError = function(xhr, errorType, exception){
 	      flashToolbarIcon(event.target, "readlater-icon-fail.png");
 	      console.log("failure: ", xhr, errorType, exception);
+	      if(xhr.status == 403) {
+      		alert("The credentials you entered in the preferences have been denied. Please check your Instapaper credentials in the preferences.");
+          } else if (xhr.status == 500 || xhr.status == 404) {
+	        alert("Server error occured on Instapaper's end. Please try again.");
+          }
+          
 	    }
 	    
 	    jQuery.ajax({
