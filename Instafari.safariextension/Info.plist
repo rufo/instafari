@@ -35,7 +35,16 @@
 	<key>Content</key>
 	<dict>
 		<key>Scripts</key>
-		<dict/>
+		<dict>
+			<key>Start</key>
+			<array>
+				<string>hotkey_script.js</string>
+			</array>
+		</dict>
+		<key>Whitelist</key>
+		<array>
+			<string>http://*/*</string>
+		</array>
 	</dict>
 	<key>Description</key>
 	<string>Adds a simple "Read Later" button to the Safari toolbar.</string>

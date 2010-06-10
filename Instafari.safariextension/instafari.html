@@ -53,36 +53,59 @@
       setAllToolbarButtonsDisabled(true);
     }
 	}
+
+  function postToInstapaper(url, title, toolbarIcon) {
+    if (safari.extension.settings.username) {
+      var params = {
+             url: url,
+           title: title,
+        username: safari.extension.settings.username,
+        password: safari.extension.secureSettings.password
+      };
+
+      var postSucceed = function(){
+        flashToolbarIcon(toolbarIcon, "readlater-icon-success.png");
+        console.log("success!");
+      }
+
+      var postError = function(xhr, errorType, exception){
+        flashToolbarIcon(toolbarIcon, "readlater-icon-fail.png");
+        console.log("failure: ", xhr, errorType, exception);
+      }
+
+      jQuery.ajax({
+           type: 'POST',
+            url: instapaperAddURL,
+           data: params,
+        success: postSucceed,
+          error: postError
+      });
+    }
+  }
 	
 	function commandListener(event) {
 	  var activeTab = event.target.browserWindow.activeTab;
-	  
+
 	  if (event.command === "readlater") {
-	    var params = {
-	           url: activeTab.url,
-	         title: activeTab.title,
-	      username: safari.extension.settings.username,
-	      password: safari.extension.secureSettings.password
-	    };
+	    postToInstapaper(activeTab.url, activeTab.title, event.target)
+	  }
+	}
+	
+	function messageListener(event) {
+	  var activeTab = event.target.browserWindow.activeTab;
+	  
+	  console.log(event)
+	  if (event.name === "readlater") {
+	    var toolbarItem;
 	    
-	    var postSucceed = function(){
-	      flashToolbarIcon(event.target, "readlater-icon-success.png");
-	      console.log("success!");
-	    }
-	    
-	    var postError = function(xhr, errorType, exception){
-	      flashToolbarIcon(event.target, "readlater-icon-fail.png");
-	      console.log("failure: ", xhr, errorType, exception);
-	    }
-	    
-	    jQuery.ajax({
-	         type: 'POST',
-	          url: instapaperAddURL,
-	         data: params,
-	      success: postSucceed,
-	        error: postError
+	    jQuery.each(safari.extension.toolbarItems, function(i, ti) {
+	      if (ti.browserWindow === event.target.browserWindow) {
+	        toolbarItem = ti;
+	        return false;
+	      }
 	    });
 	    
+	    postToInstapaper(activeTab.url, activeTab.title, toolbarItem);
 	  }
 	}
 	
@@ -94,7 +117,8 @@
 	
 	safari.application.addEventListener("command", commandListener, false);
 	safari.application.addEventListener("validate", validateListener, false);
-	safari.application.addEventListener("change", checkSettings, false);	 
+	safari.application.addEventListener("change", checkSettings, false);
+	safari.application.addEventListener("message", messageListener, false);
 	</script>
 </head>
 <body>
