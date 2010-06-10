@@ -83,6 +83,10 @@
     }
   }
 	
+	function sendSettingsToPage(page) {
+	  page.dispatchMessage("keyboard_shortcut", safari.extension.settings.keyboard_shortcut);
+	}
+	
 	function commandListener(event) {
 	  var activeTab = event.target.browserWindow.activeTab;
 
@@ -94,7 +98,6 @@
 	function messageListener(event) {
 	  var activeTab = event.target.browserWindow.activeTab;
 	  
-	  console.log(event)
 	  if (event.name === "readlater") {
 	    var toolbarItem;
 	    
@@ -106,6 +109,8 @@
 	    });
 	    
 	    postToInstapaper(activeTab.url, activeTab.title, toolbarItem);
+	  } else if (event.name === "getSettings") {
+	    sendSettingsToPage(event.target.page);
 	  }
 	}
 	
@@ -113,11 +118,23 @@
     checkSettings();
 	}
 	
+	function changeListener(event) {
+	  if (event.key === "username") {
+	    checkSettings();
+	  } else if (event.key === "keyboard_shortcut") {
+      jQuery.each(safari.application.browserWindows, function(i, browserWindow) {
+        jQuery.each(browserWindow.tabs, function(i, tab) {
+          sendSettingsToPage(tab.page);
+        });
+      });
+    }
+	}
+	
 	checkSettings();
 	
 	safari.application.addEventListener("command", commandListener, false);
 	safari.application.addEventListener("validate", validateListener, false);
-	safari.application.addEventListener("change", checkSettings, false);
+	safari.extension.settings.addEventListener("change", changeListener, false);
 	safari.application.addEventListener("message", messageListener, false);
 	</script>
 </head>
