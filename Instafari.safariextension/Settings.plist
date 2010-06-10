@@ -22,6 +22,31 @@
 		<key>Type</key>
 		<string>TextField</string>
 	</dict>
-	<dict/>
+	<dict>
+		<key>Type</key>
+		<string>Separator</string>
+	</dict>
+	<dict>
+		<key>DefaultValue</key>
+		<string>disabled</string>
+		<key>Key</key>
+		<string>keyboard_shortcut</string>
+		<key>Title</key>
+		<string>Keyboard Shortcut</string>
+		<key>Titles</key>
+		<array>
+			<string>Disabled</string>
+			<string>⌘⌥R</string>
+			<string>^⌥R</string>
+		</array>
+		<key>Type</key>
+		<string>RadioButtons</string>
+		<key>Values</key>
+		<array>
+			<string>disabled</string>
+			<string>mac</string>
+			<string>windows</string>
+		</array>
+	</dict>
 </array>
 </plist>
