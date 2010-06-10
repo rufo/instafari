@@ -4,23 +4,30 @@ Instafari
 
 This is a quick [Instapaper](http://www.instapaper.com/) extension I threw together for [Safari 5](http://www.apple.com/safari/), mainly to experiment with Safari's extension system, but also because I thought one should exist. It's completely unofficial, but should work until [Marco's is released](http://twitter.com/instapaper/status/15731872160).
 
+New! Improved! Version 0.2!
+-----------
+ * Experimental keyboard shortcut support (currently Command-Option-R and Control-Option-R)
+ * Alert box if an error occurs posting to Instapaper
+ * Changed preferences dialog to reflect Instapaper naming guidelines
+ * Other minor bug-fixes
+ 
+Many thanks to [Jeroen Leenarts](http://github.com/jeroenleenarts) for contributions and support! 
+
 Installation
 ------------
 Installation takes a few extra steps, since Apple hasn't officially enabled extensions yet.
 
-First, if you haven't already, you need to enable extensions. If you don't have the Develop menu enabled, you'll need to go to Safari's Advanced preferences and enable it. Once you have it enabled, go to the Develop menu and check "Enable Extensions".
+First, if you haven't already, [you need to enable extensions](http://safariextensions.tumblr.com/post/680219521/post-how-to-enable-extensions-06-09-10). Once enabled, go to [the downloads section here on GitHub](http://github.com/rufo/instafari/downloads) and grab the latest version of the extension (currently 0.2). Double-click the resulting file, and Safari should offer to install it.
 
-Once extensions are enabled, go to [the downloads section here on GitHub](http://github.com/rufo/instafari/downloads) and grab the latest version of the extension. Double-click the resulting file, and Safari should offer to install it.
-
-Finally, once installed, you'll need to head into Safari's preferences and enter your account info.
+Once installed, you'll need to head into Safari's preferences and enter your account info.
 
 Usage
 -----
-Once installed, just click the Read Later button on any page. If you've entered your account info correctly, you should see a checkmark flash in the toolbar button. If your account into is incorrect or another error occurred, you'll see a thumbs-down.
+Once installed, just click the Read Later button on any page. If you've entered your account info correctly, you should see a checkmark flash in the toolbar button. If your account into is incorrect or another error occurred, you'll see a thumbs-down, and an alert box will pop up letting you know what went wrong.
 
 Troubleshooting
 ---------------
-First, check your account info in the preferences; if that doesn't work, file a GitHub issue or drop me a line [@rufo](http://twitter.com/rufo).
+First, check your account info in the preferences; if that doesn't work, file a GitHub issue or drop me a line [@rufo](http://twitter.com/rufo) on Twitter or [via e-mail](mailto:rufo@spark74.com).
 
 Updates
 -------
@@ -34,7 +41,15 @@ Potential roadmap/improvements
 * Classier toolbar icons
 * Other things...
 
-If you'd like to implement any of the above (or any other features/bug fixes/etc.), fork, commit, and send a pull request. If you have other ideas, file a GitHub issue or get in touch with me [@rufo](http://twitter.com/rufo).
+If you'd like to implement any of the above (or any other features/bug fixes/etc.), fork, commit, and send a pull request. If you have other ideas, file a GitHub issue or get in touch with me [@rufo](http://twitter.com/rufo) or [via e-mail](mailto:rufo@spark74.com).
+
+Credits
+-------
+Obviously, this wouldn't exist without [Marco Arment's](http://www.marco.org/) awesome [Instapaper](http://www.instapaper.com/) service. Thanks for the service and apps, Marco!
+
+The tick and thumbs down icons are from [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/)'s Fugue icons, and licensed under a [Creative Commons Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/).
+
+Finally, this extension is © 2010 Rufo Sanchez, and is released under the MIT license, with contributions from [Jeroen Leenarts](http://github.com/jeroenleenarts).
 
 License
 -------
@@ -60,12 +75,3 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
-
-
-Credits
--------
-Obviously, this wouldn't exist without [Marco Arment's](http://www.marco.org/) awesome [Instapaper](http://www.instapaper.com/) service. Thanks for the service and apps, Marco!
-
-The tick and thumbs down icons are from [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/)'s Fugue icons, and licensed under a [Creative Commons Attribution 3.0 license](http://creativecommons.org/licenses/by/3.0/).
-
-Finally, this extension is © 2010 Rufo Sanchez, and is released under the MIT license.
