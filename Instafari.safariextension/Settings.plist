@@ -23,8 +23,10 @@
 		<string>TextField</string>
 	</dict>
 	<dict>
+		<key>Title</key>
+		<string>Experimental Settings:</string>
 		<key>Type</key>
-		<string>Separator</string>
+		<string>Group</string>
 	</dict>
 	<dict>
 		<key>DefaultValue</key>
