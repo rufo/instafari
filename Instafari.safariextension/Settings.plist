@@ -6,7 +6,7 @@
 		<key>Key</key>
 		<string>username</string>
 		<key>Title</key>
-		<string>Username</string>
+		<string>Email or username</string>
 		<key>Type</key>
 		<string>TextField</string>
 	</dict>
@@ -18,7 +18,7 @@
 		<key>Secure</key>
 		<true/>
 		<key>Title</key>
-		<string>Password</string>
+		<string>Password, if you have one</string>
 		<key>Type</key>
 		<string>TextField</string>
 	</dict>
