@@ -16,6 +16,17 @@
 	<string>3</string>
 	<key>Chrome</key>
 	<dict>
+		<key>Context Menu Items</key>
+		<array>
+			<dict>
+				<key>Command</key>
+				<string>readlater</string>
+				<key>Identifier</key>
+				<string>instafari</string>
+				<key>Title</key>
+				<string>Read Later</string>
+			</dict>
+		</array>
 		<key>Global Page</key>
 		<string>instafari.html</string>
 		<key>Toolbar Items</key>
