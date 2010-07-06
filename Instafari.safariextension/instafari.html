@@ -97,8 +97,27 @@
 	  page.dispatchMessage("get_selection");
 	}
 	
+	function getActiveToolbarItem(targetBrowserWindow) {
+	  var toolbarItem;
+	  
+	  jQuery.each(safari.extension.toolbarItems, function(i, ti) {
+      if (ti.browserWindow === targetBrowserWindow) {
+        toolbarItem = ti;
+        return false;
+      }
+    });
+    
+    return toolbarItem;
+	}
+	
 	function commandListener(event) {
-	  var activeTab = event.target.browserWindow.activeTab;
+	  var activeTab;
+	  
+    if (event.target.browserWindow) {
+      activeTab = event.target.browserWindow.activeTab;
+    } else {
+      activeTab = safari.application.activeBrowserWindow.activeTab;
+    }
 
 	  if (event.command === "readlater") {
 	    getSelectionFromPage(activeTab.page);
@@ -113,14 +132,7 @@
 	  } else if (event.name === "getSettings") {
 	    sendSettingsToPage(event.target.page);
 	  } else if (event.name === "returnSelection") {
-	    var toolbarItem;
-	    
-	    jQuery.each(safari.extension.toolbarItems, function(i, ti) {
-	      if (ti.browserWindow === event.target.browserWindow) {
-	        toolbarItem = ti;
-	        return false;
-	      }
-	    });
+	    var toolbarItem = getActiveToolbarItem(event.target.browserWindow);
 	    
 	    postToInstapaper(activeTab.url, activeTab.title, event.message, toolbarItem);
 	  }
