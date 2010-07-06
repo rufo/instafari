@@ -1,8 +1,10 @@
 var keyboard_shortcut;
 
-function getSettings(event) {
+function messageHandler(event) {
   if (event.name === "keyboard_shortcut") {
     keyboard_shortcut = event.message;
+  } else if (event.name === "get_selection") {
+    safari.self.tab.dispatchMessage("returnSelection", window.getSelection().toString());
   }
 }
 
@@ -32,5 +34,5 @@ document.addEventListener('keydown', function(event){
   }
 }, false);
 
-safari.self.addEventListener("message", getSettings, false);
+safari.self.addEventListener("message", messageHandler, false);
 safari.self.tab.dispatchMessage("getSettings", "keyboard_shortcut");

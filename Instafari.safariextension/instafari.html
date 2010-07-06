@@ -53,11 +53,12 @@
     }
 	}
 
-  function postToInstapaper(url, title, toolbarIcon) {
+  function postToInstapaper(url, title, selection, toolbarIcon) {
     if (safari.extension.settings.username) {
       var params = {
              url: url,
            title: title,
+       selection: selection,
         username: safari.extension.settings.username,
         password: safari.extension.secureSettings.password
       };
@@ -92,11 +93,15 @@
 	  page.dispatchMessage("keyboard_shortcut", safari.extension.settings.keyboard_shortcut);
 	}
 	
+	function getSelectionFromPage(page) {
+	  page.dispatchMessage("get_selection");
+	}
+	
 	function commandListener(event) {
 	  var activeTab = event.target.browserWindow.activeTab;
 
 	  if (event.command === "readlater") {
-	    postToInstapaper(activeTab.url, activeTab.title, event.target)
+	    getSelectionFromPage(activeTab.page);
 	  }
 	}
 	
@@ -104,6 +109,10 @@
 	  var activeTab = event.target.browserWindow.activeTab;
 	  
 	  if (event.name === "readlater") {
+      getSelectionFromPage(event.target.page);
+	  } else if (event.name === "getSettings") {
+	    sendSettingsToPage(event.target.page);
+	  } else if (event.name === "returnSelection") {
 	    var toolbarItem;
 	    
 	    jQuery.each(safari.extension.toolbarItems, function(i, ti) {
@@ -113,9 +122,7 @@
 	      }
 	    });
 	    
-	    postToInstapaper(activeTab.url, activeTab.title, toolbarItem);
-	  } else if (event.name === "getSettings") {
-	    sendSettingsToPage(event.target.page);
+	    postToInstapaper(activeTab.url, activeTab.title, event.message, toolbarItem);
 	  }
 	}
 	
